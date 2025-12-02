@@ -1,8 +1,11 @@
+import Card from "../_components/Card";
+import PageTitle from "../_components/PageTitle";
+
 export default function PaymentsList() {
   return (
     <main className="sub-layout">
-      <h1 className="text-3xl font-bold">거래 내역</h1>
-      <p className="text-gray-600 mt-4">전체 거래 내역</p>
+      <PageTitle title="거래내역 목록" />
+      <Card title="거래내역" pointText="275,600 원"></Card>
     </main>
   );
 }

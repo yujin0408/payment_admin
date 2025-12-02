@@ -1,12 +1,18 @@
-export default function Card({ 
-  children, 
-  className = "" 
-}: { 
-  children: React.ReactNode
-  className?: string 
+export default function Card({
+  children,
+  title,
+  pointText,
+  className = "",
+}: {
+  children?: React.ReactNode;
+  title?: string;
+  pointText?: string;
+  className?: string;
 }) {
   return (
-    <div className={`bg-white rounded-lg shadow p-6 ${className}`}>
+    <div className={`bg-bg rounded-2xl shadow p-6 ${className}`}>
+      <p className="text-xl font-semi-bold">{title}</p>
+      <p className="pt-6 text-3xl font-bold text-primary text-right">{pointText}</p>
       {children}
     </div>
   );
