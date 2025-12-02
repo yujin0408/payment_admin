@@ -1,4 +1,4 @@
-export default function MerchantDetail({ params }: { params: { id: string } }) {
+export default function PaymentDetail({ params }: { params: { id: string } }) {
   return (
     <main className="sub-layout">
       <h1 className="text-3xl font-bold">가맹점 상세</h1>
