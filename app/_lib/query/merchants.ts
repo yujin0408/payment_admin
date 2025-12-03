@@ -15,6 +15,7 @@ export function useMerchants() {
   return useQuery({
     queryKey: merchantsKeys.lists(),
     queryFn: () => getMerchants(),
+    select: (res) => res.data,
   });
 }
 
@@ -32,5 +33,6 @@ export function useMerchantDetail(mchtCode: string) {
     queryKey: merchantsKeys.detail(mchtCode),
     queryFn: () => getMerchantDetail(mchtCode),
     enabled: !!mchtCode,
+    select: (res) => res.data,
   });
 }

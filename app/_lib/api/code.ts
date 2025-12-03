@@ -29,7 +29,7 @@ export async function getPaymentStatusCodes(): Promise<PaymentStatusCodeResponse
 }
 
 export async function getPaymentTypeCodes(): Promise<PaymentTypeCodeResponse> {
-  return fetcher<PaymentTypeCodeResponse>("/common/payment-type/all");
+  return fetcher<PaymentTypeCodeResponse>("/common/paymemt-type/all");
 }
 
 export async function getMerchantCodes(): Promise<MerchantCodeResponse> {

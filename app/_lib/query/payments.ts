@@ -19,7 +19,7 @@ export const usePaymentsQuery = () => {
 
   const payments =
     paymentsQuery.data?.data.map((payment) => {
-      const merchant = merchantsQuery.data?.data.find((m) => m.mchtCode === payment.mchtCode);
+      const merchant = merchantsQuery.data?.find((m) => m.mchtCode === payment.mchtCode);
       return {
         ...payment,
         mchtName: merchant?.mchtName || "Unknown",

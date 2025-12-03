@@ -6,7 +6,7 @@ export default function Card({
 }: {
   children?: React.ReactNode;
   title?: string;
-  pointText?: string;
+  pointText?: React.ReactNode;
   className?: string;
 }) {
   return (

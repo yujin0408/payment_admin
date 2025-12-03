@@ -5,6 +5,7 @@
   src: url("/font/PretendardVariable.woff2") format("woff2-variations");
   font-weight: 100 900;
   font-display: swap;
+  font-feature-settings: "tnum" 1;
 }
 
 @theme inline {
@@ -41,11 +42,12 @@
 body {
   background: var(--color-primary);
   color: var(--color-text);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Pretendard", Arial, Helvetica, sans-serif;
+  font-variant-numeric: tabular-nums;
 }
 
 .main-layout {
-  @apply mx-15 max-w-full py-10
+  @apply mx-4 md:mx-15 max-w-full py-10
 }
 
 .sub-layout {

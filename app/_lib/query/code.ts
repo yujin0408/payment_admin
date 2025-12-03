@@ -25,10 +25,15 @@ export function usePaymentStatusCodes() {
 
 // 결제수단 코드
 export function usePaymentTypeCodes() {
-  return useQuery<PaymentTypeCodeResponse>({
+  const query = useQuery<PaymentTypeCodeResponse>({
     queryKey: codeKeys.paymentType(),
     queryFn: () => getPaymentTypeCodes(),
   });
+
+  return {
+    ...query,
+    data: query.data?.data,
+  };
 }
 
 // 가맹점 코드
