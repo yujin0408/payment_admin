@@ -10,6 +10,7 @@ export const merchantsKeys = {
   detail: (mchtCode: string) => [...merchantsKeys.all, "detail", mchtCode] as const,
 };
 
+// 가맹점 목록
 export function useMerchants() {
   return useQuery({
     queryKey: merchantsKeys.lists(),
@@ -17,6 +18,7 @@ export function useMerchants() {
   });
 }
 
+// 가맹점 상세 목록
 export function useMerchantsDetail() {
   return useQuery({
     queryKey: merchantsKeys.details(),
@@ -24,6 +26,7 @@ export function useMerchantsDetail() {
   });
 }
 
+// 가맹점 상세
 export function useMerchantDetail(mchtCode: string) {
   return useQuery({
     queryKey: merchantsKeys.detail(mchtCode),

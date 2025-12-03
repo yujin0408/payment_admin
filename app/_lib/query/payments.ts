@@ -8,6 +8,7 @@ const paymentsKeys = {
   all: ["payments"] as const,
 };
 
+// 결제 내역 조회
 export const usePaymentsQuery = () => {
   const paymentsQuery = useQuery({
     queryKey: paymentsKeys.all,
@@ -16,15 +17,14 @@ export const usePaymentsQuery = () => {
 
   const merchantsQuery = useMerchants();
 
-  const payments = paymentsQuery.data?.data.map((payment) => {
-    const merchant = merchantsQuery.data?.data.find(
-      (m) => m.mchtCode === payment.mchtCode,
-    );
-    return {
-      ...payment,
-      mchtName: merchant?.mchtName || "Unknown",
-    };
-  }) || [];
+  const payments =
+    paymentsQuery.data?.data.map((payment) => {
+      const merchant = merchantsQuery.data?.data.find((m) => m.mchtCode === payment.mchtCode);
+      return {
+        ...payment,
+        mchtName: merchant?.mchtName || "Unknown",
+      };
+    }) || [];
 
   return {
     data: payments,
