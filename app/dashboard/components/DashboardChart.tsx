@@ -22,7 +22,6 @@ interface DailyTotal {
 export default function DashboardChart({ paymentData, referenceDate }: DashboardChartProps) {
   const { data: paymentTypeCodes } = usePaymentTypeCodes();
 
-  // 결제 수단 코드 매핑 (type -> description)
   const paymentTypeMap = new Map(
     paymentTypeCodes?.map((code) => [code.type, code.description]) || [
       ["ONLINE", "온라인"],
@@ -33,7 +32,6 @@ export default function DashboardChart({ paymentData, referenceDate }: Dashboard
     ]
   );
 
-  // 최근 7일 데이터를 날짜별로 집계
   const dailyTotals: Record<string, { KRW: number; USD: number }> = {};
   const paymentTypeCount: Record<string, number> = {};
 
@@ -44,9 +42,8 @@ export default function DashboardChart({ paymentData, referenceDate }: Dashboard
       (refDate.getTime() - paymentDate.getTime()) / (1000 * 60 * 60 * 24)
     );
 
-    // 7일 범위 내의 거래만 처리
     if (daysDiff >= 0 && daysDiff < 7) {
-      const dateStr = payment.paymentAt.split("T")[0]; // YYYY-MM-DD 형식
+      const dateStr = payment.paymentAt.split("T")[0];
 
       if (!dailyTotals[dateStr]) {
         dailyTotals[dateStr] = { KRW: 0, USD: 0 };
@@ -57,13 +54,11 @@ export default function DashboardChart({ paymentData, referenceDate }: Dashboard
         dailyTotals[dateStr][currency] += payment.amount;
       }
 
-      // 결제 수단별 건수 집계
       const payType = payment.payType;
       paymentTypeCount[payType] = (paymentTypeCount[payType] || 0) + 1;
     }
   });
 
-  // 날짜별 데이터 정렬
   const chartData: DailyTotal[] = Object.entries(dailyTotals)
     .map(([date, totals]) => ({
       name: date,
@@ -72,7 +67,6 @@ export default function DashboardChart({ paymentData, referenceDate }: Dashboard
     }))
     .sort((a, b) => new Date(a.name).getTime() - new Date(b.name).getTime());
 
-  // 결제 수단 파이 차트 데이터 변환
   const paymentTypeChartData = Object.entries(paymentTypeCount).map(([type, count]) => ({
     name: paymentTypeMap.get(type) || type,
     value: count,

@@ -1,33 +1,66 @@
 "use client";
 
+import { useState } from "react";
 import Card from "../_components/Card";
 import PageTitle from "../_components/PageTitle";
 import Table from "../_components/Table";
-import { usePaymentsQuery } from "../_lib/query/payments";
+import PaymentsFilter from "./components/PaymentsFilter";
+import PaymentsPagination from "./components/PaymentsPagination";
+import { usePaymentRows } from "./hooks/usePaymentRows";
+
+const itemsPerPage = 10;
+
+interface FilterState {
+  searchTerm: string;
+  filterStatus: string;
+  filterPayType: string;
+  sortBy: "date" | "amount";
+  sortOrder: "asc" | "desc";
+}
 
 export default function PaymentsList() {
-  const { data, isLoading, error } = usePaymentsQuery();
+  const [filterState, setFilterState] = useState<FilterState>({
+    searchTerm: "",
+    filterStatus: "",
+    filterPayType: "",
+    sortBy: "date",
+    sortOrder: "desc",
+  });
+  const [currentPage, setCurrentPage] = useState(1);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error || !data) return <div>결제 내역을 불러오지 못했어요</div>;
+  const allRows = usePaymentRows(filterState);
 
-  const rows = data.map((payment) => [
-    payment.paymentCode,
-    payment.paymentAt,
-    payment.mchtName,
-    `${payment.amount.toLocaleString()} 원`,
-    payment.payType,
-    payment.status,
-  ]);
+  const totalPages = Math.ceil(allRows.length / itemsPerPage);
+  const paginatedRows = allRows.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handleFilterChange = (newFilters: FilterState) => {
+    setFilterState(newFilters);
+    setCurrentPage(1);
+  };
 
   return (
     <main className="sub-layout">
-      <PageTitle title="거래내역 목록" />
-      <Card title="거래내역" pointText="275,600 원">
+      <PageTitle title="전체 거래내역" />
+
+      <PaymentsFilter
+        onFilterChange={handleFilterChange}
+        totalResults={allRows.length}
+      />
+
+      <Card>
         <Table
           headers={["날짜", "가맹점", "금액", "결제수단", "상태"]}
-          rows={rows}
+          rows={paginatedRows}
           onRowClick={(paymentCode) => `/payments/${paymentCode}`}
+        />
+
+        <PaymentsPagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
         />
       </Card>
     </main>

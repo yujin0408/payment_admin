@@ -5,10 +5,7 @@ import { useRouter } from "next/navigation";
 import Card from "../../_components/Card";
 import Table from "../../_components/Table";
 import { formatCurrency } from "../../_lib/utils/currency";
-import {
-  usePaymentStatusCodes,
-  usePaymentTypeCodes,
-} from "../../_lib/query/code";
+import { usePaymentStatusCodes, usePaymentTypeCodes } from "../../_lib/query/code";
 import type { Payment } from "../../_lib/api/payments";
 
 interface RecentTransactionsProps {
@@ -28,9 +25,7 @@ export default function RecentTransactions({ paymentData }: RecentTransactionsPr
     );
 
     const paymentStatusMap = new Map(
-      paymentStatusCodesData?.data?.map(
-        (code) => [code.code, code.description] as const
-      ) || []
+      paymentStatusCodesData?.data?.map((code) => [code.code, code.description] as const) || []
     );
 
     return paymentData
@@ -51,7 +46,7 @@ export default function RecentTransactions({ paymentData }: RecentTransactionsPr
       <div className="flex justify-end mb-3">
         <button
           onClick={() => router.push("/payments")}
-          className="text-primary hover:text-green-700 font-medium text-sm"
+          className="text-primary hover:text-green-700 font-medium text-sm cursor-pointer"
         >
           전체보기 →
         </button>
