@@ -7,6 +7,7 @@ import Table from "../_components/Table";
 import PaymentsFilter from "./components/PaymentsFilter";
 import PaymentsPagination from "./components/PaymentsPagination";
 import { usePaymentRows } from "./hooks/usePaymentRows";
+import { usePaymentsQuery } from "../_lib/query/payments";
 
 const itemsPerPage = 10;
 
@@ -28,6 +29,7 @@ export default function PaymentsList() {
   });
   const [currentPage, setCurrentPage] = useState(1);
 
+  const { data: paymentData } = usePaymentsQuery();
   const allRows = usePaymentRows(filterState);
 
   const totalPages = Math.ceil(allRows.length / itemsPerPage);
@@ -36,9 +38,22 @@ export default function PaymentsList() {
     currentPage * itemsPerPage
   );
 
+  // 현재 페이지의 payment 데이터를 추적하기 위한 맵
+  const paymentMap = new Map(
+    paymentData?.map((p) => [p.paymentCode, p]) || []
+  );
+
   const handleFilterChange = (newFilters: FilterState) => {
     setFilterState(newFilters);
     setCurrentPage(1);
+  };
+
+  const handleRowClick = (paymentCode: string | number) => {
+    const payment = paymentMap.get(String(paymentCode));
+    if (payment) {
+      return `/payments/${payment.paymentCode}?mchtCode=${payment.mchtCode}`;
+    }
+    return `/payments/${paymentCode}`;
   };
 
   return (
@@ -54,7 +69,7 @@ export default function PaymentsList() {
         <Table
           headers={["날짜", "가맹점", "금액", "결제수단", "상태"]}
           rows={paginatedRows}
-          onRowClick={(paymentCode) => `/payments/${paymentCode}`}
+          onRowClick={handleRowClick}
         />
 
         <PaymentsPagination
