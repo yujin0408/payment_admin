@@ -16,7 +16,7 @@ Next.js 기반의 결제 및 가맹점 관리를 위한 관리자 대시보드�
 - **Frontend**: React, TypeScript
 - **Styling**: Tailwind CSS
 - **State Management**: React Query (@tanstack/react-query)
-- **Chart**: Recharts 3.5.1
+- **Chart**: Recharts
 
 ## 📋 프로젝트 구조
 
@@ -82,31 +82,21 @@ npm run dev
 - 업종 필터
 - 가맹점 상세 정보 페이지
 
+## 📸 Screenshots
+
+### Dashboard
+<img alt="대시보드 스크린샷" src="https://github.com/user-attachments/assets/60dee690-58d8-49eb-9c01-fa3d09dd4b03" />
+
+### Payments List
+<img alt="거래 내역 스크린샷" src="https://github.com/user-attachments/assets/49bc8c03-5e96-4f33-b5a8-7669dd6dd346" />
+
+### Payment Detail
+<img alt="거래 상세 스크린샷" src="https://github.com/user-attachments/assets/84bb5d25-8187-4352-aac1-d06d89a524c4" />
+
+※ 가맹점 목록/상세 페이지는 거래 페이지와 동일한 UI 패턴을 사용하므로, 중복된 스크린샷은 제외했습니다.
+
 ## 🎨 디자인 의도 및 UI/UX
 
-관리자가 **직관적이고 빠르게** 거래 및 가맹점 정보에 접근할 수 있도록 설계했습니다.
-대시보드, 리스트, 상세 페이지 간 시각적 일관성을 유지해 사용자가 자연스럽게 이동할 수 있게 설계했습니다.
-초록색 포인트 컬러로 주요 정보를 강조하고, 반응형 디자인으로 다양한 디바이스에서 일관된 경험을 제공합니다.
-
-## 📝 개발 규칙
-
-### Commit 타입
-
-- `feat`: 새로운 기능
-- `fix`: 버그 수정
-- `chore`: 유지보수 작업
-- `refactor`: 코드 리팩토링
-- `style`: 스타일 변경
-- `docs`: 문서 작성
-
-### 코드 스타일
-
-- Prettier로 자동 포맷팅
-- ESLint로 코드 검사
-- TypeScript 엄격 모드
-
-## 📦 의존성 관리
-
-- Node.js 18+ 권장
-- npm 또는 yarn 사용
-- package-lock.json 커밋
+- 관리자가 **직관적이고 빠르게** 거래 및 가맹점 정보에 접근할 수 있도록 설계했습니다.
+- 대시보드, 리스트, 상세 페이지 간 시각적 일관성을 유지해 사용자가 자연스럽게 이동할 수 있게 설계했습니다.
+- 초록색 포인트 컬러로 주요 정보를 강조하고, 반응형 디자인으로 다양한 디바이스에서 일관된 경험을 제공합니다.
