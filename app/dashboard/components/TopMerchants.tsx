@@ -49,7 +49,7 @@ export default function TopMerchants({ paymentData, merchantsData }: TopMerchant
           전체보기 →
         </button>
       </div>
-      <Table headers={["가맹점명", "업종", "매출액"]} rows={topMerchants} />
+      <Table headers={["가맹점 코드", "가맹점명", "업종", "매출액"]} rows={topMerchants} />
     </Card>
   );
 }

@@ -21,12 +21,12 @@ export default function Table({
 
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
-      <div className="overflow-x-auto md:overflow-x-hidden">
-        <table className="w-full min-w-max md:min-w-0">
-          <thead className="bg-point-green border-b text-lg font-semibold text-secondary">
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className="bg-point-green border-b text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-secondary">
             <tr>
               {headers.map((header) => (
-                <th key={header} className="text-center py-2 px-2">
+                <th key={header} className="text-center py-2 px-2 whitespace-nowrap">
                   {header}
                 </th>
               ))}
@@ -47,7 +47,7 @@ export default function Table({
                   onClick={clickable ? () => handleRowClick(key) : undefined}
                 >
                   {cellsToRender.map((cell, cellIdx) => (
-                    <td key={cellIdx} className="text-center text-text py-2 px-2 whitespace-nowrap">
+                    <td key={cellIdx} className="text-center text-text text-xs sm:text-xs md:text-sm lg:text-sm py-2 px-2 whitespace-nowrap">
                       {String(cell)}
                     </td>
                   ))}

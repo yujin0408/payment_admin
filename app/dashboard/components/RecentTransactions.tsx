@@ -51,7 +51,10 @@ export default function RecentTransactions({ paymentData }: RecentTransactionsPr
           전체보기 →
         </button>
       </div>
-      <Table headers={["날짜", "가맹점", "금액", "결제수단", "상태"]} rows={recentTransactions} />
+      <Table
+        headers={["결제 코드", "날짜", "가맹점", "금액", "결제수단", "상태"]}
+        rows={recentTransactions}
+      />
     </Card>
   );
 }
