@@ -33,15 +33,10 @@ export default function PaymentsList() {
   const allRows = usePaymentRows(filterState);
 
   const totalPages = Math.ceil(allRows.length / itemsPerPage);
-  const paginatedRows = allRows.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const paginatedRows = allRows.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   // 현재 페이지의 payment 데이터를 추적하기 위한 맵
-  const paymentMap = new Map(
-    paymentData?.map((p) => [p.paymentCode, p]) || []
-  );
+  const paymentMap = new Map(paymentData?.map((p) => [p.paymentCode, p]) || []);
 
   const handleFilterChange = (newFilters: FilterState) => {
     setFilterState(newFilters);
@@ -60,14 +55,11 @@ export default function PaymentsList() {
     <main className="sub-layout">
       <PageTitle title="전체 거래내역" />
 
-      <PaymentsFilter
-        onFilterChange={handleFilterChange}
-        totalResults={allRows.length}
-      />
+      <PaymentsFilter onFilterChange={handleFilterChange} totalResults={allRows.length} />
 
       <Card>
         <Table
-          headers={["날짜", "가맹점", "금액", "결제수단", "상태"]}
+          headers={["결제 코드", "날짜", "가맹점", "금액", "결제수단", "상태"]}
           rows={paginatedRows}
           onRowClick={handleRowClick}
         />

@@ -1,30 +1,35 @@
-import { useState } from "react";
-import CommonFilter from "../../_components/CommonFilter";
-import { usePaymentStatusCodes, usePaymentTypeCodes } from "../../_lib/query/code";
+"use client";
 
-interface PaymentsFilterProps {
-  onFilterChange: (filters: {
-    searchTerm: string;
-    filterStatus: string;
-    filterPayType: string;
-    sortBy: "date" | "amount";
-    sortOrder: "asc" | "desc";
-  }) => void;
+import { useMemo, useState } from "react";
+import CommonFilter from "@/app/_components/CommonFilter";
+import { useMerchantCodes } from "@/app/_lib/query/code";
+import { useMerchants } from "@/app/_lib/query/merchants";
+
+interface FilterState {
+  searchTerm: string;
+  filterStatus: string;
+  filterBizType: string;
+  sortBy: "name" | "sales";
+  sortOrder: "asc" | "desc";
+}
+
+interface MerchantsFilterProps {
+  onFilterChange: (filters: FilterState) => void;
   totalResults: number;
 }
 
-export default function PaymentsFilter({
+export default function MerchantsFilter({
   onFilterChange,
   totalResults,
-}: PaymentsFilterProps) {
+}: MerchantsFilterProps) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState<string>("");
-  const [filterPayType, setFilterPayType] = useState<string>("");
-  const [sortBy, setSortBy] = useState<"date" | "amount">("date");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [filterStatus, setFilterStatus] = useState("");
+  const [filterBizType, setFilterBizType] = useState("");
+  const [sortBy, setSortBy] = useState<"name" | "sales">("name");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
-  const { data: paymentStatusCodesData } = usePaymentStatusCodes();
-  const { data: paymentTypeCodesData } = usePaymentTypeCodes();
+  const { data: statusCodesData } = useMerchantCodes();
+  const { data: merchantData } = useMerchants();
 
   const handleValueChange = (id: string, value: string) => {
     if (id === "searchTerm") {
@@ -33,7 +38,7 @@ export default function PaymentsFilter({
         onFilterChange({
           searchTerm: value,
           filterStatus,
-          filterPayType,
+          filterBizType,
           sortBy,
           sortOrder,
         });
@@ -44,18 +49,18 @@ export default function PaymentsFilter({
         onFilterChange({
           searchTerm,
           filterStatus: value,
-          filterPayType,
+          filterBizType,
           sortBy,
           sortOrder,
         });
       }, 0);
-    } else if (id === "filterPayType") {
-      setFilterPayType(value);
+    } else if (id === "filterBizType") {
+      setFilterBizType(value);
       setTimeout(() => {
         onFilterChange({
           searchTerm,
           filterStatus,
-          filterPayType: value,
+          filterBizType: value,
           sortBy,
           sortOrder,
         });
@@ -64,13 +69,13 @@ export default function PaymentsFilter({
   };
 
   const handleSortByChange = (value: string) => {
-    setSortBy(value as "date" | "amount");
+    setSortBy(value as "name" | "sales");
     setTimeout(() => {
       onFilterChange({
         searchTerm,
         filterStatus,
-        filterPayType,
-        sortBy: value as "date" | "amount",
+        filterBizType,
+        sortBy: value as "name" | "sales",
         sortOrder,
       });
     }, 0);
@@ -83,18 +88,27 @@ export default function PaymentsFilter({
       onFilterChange({
         searchTerm,
         filterStatus,
-        filterPayType,
+        filterBizType,
         sortBy,
         sortOrder: newOrder,
       });
     }, 0);
   };
 
+  // 고유한 업종 목록 추출
+  const bizTypeOptions = useMemo(() => {
+    const uniqueBizTypes = new Set(merchantData?.map((m) => m.bizType) || []);
+    return Array.from(uniqueBizTypes).map((bizType) => ({
+      value: bizType,
+      label: bizType,
+    }));
+  }, [merchantData]);
+
   const filterConfigs = [
     {
       id: "searchTerm",
       label: "검색",
-      placeholder: "거래번호, 가맹점 검색",
+      placeholder: "코드, 이름, 업종",
       type: "search" as const,
     },
     {
@@ -102,32 +116,28 @@ export default function PaymentsFilter({
       label: "상태",
       type: "select" as const,
       options:
-        paymentStatusCodesData?.data?.map((code) => ({
+        statusCodesData?.data?.map((code) => ({
           value: code.code,
           label: code.description,
         })) || [],
     },
     {
-      id: "filterPayType",
-      label: "결제수단",
+      id: "filterBizType",
+      label: "업종",
       type: "select" as const,
-      options:
-        paymentTypeCodesData?.map((code) => ({
-          value: code.type,
-          label: code.description,
-        })) || [],
+      options: bizTypeOptions,
     },
   ];
 
   const sortByOptions = [
-    { value: "date", label: "날짜순" },
-    { value: "amount", label: "금액순" },
+    { value: "name", label: "이름순" },
+    { value: "sales", label: "매출액순" },
   ];
 
   return (
     <CommonFilter
       configs={filterConfigs}
-      values={{ searchTerm, filterStatus, filterPayType }}
+      values={{ searchTerm, filterStatus, filterBizType }}
       onValueChange={handleValueChange}
       sortBy={sortBy}
       sortByOptions={sortByOptions}

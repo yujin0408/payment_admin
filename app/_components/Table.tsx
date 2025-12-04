@@ -35,7 +35,7 @@ export default function Table({
           <tbody>
             {rows.map((row) => {
               const key = row[0];
-              const cellsToRender = row.slice(1);
+              const cellsToRender = row;
               const clickable = !!onRowClick;
 
               return (
