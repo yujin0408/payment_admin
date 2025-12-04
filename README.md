@@ -13,10 +13,16 @@ Next.js 기반의 결제 및 가맹점 관리를 위한 관리자 대시보드�
 ## 🛠 기술 스택
 
 - **Framework**: Next.js (App Router)
+  - 페이지 단위로 기능이 명확하게 구분되는 프로젝트의 특성으로 파일 기반 라우팅과 동적 세그먼트 구조가 직관적인 Next.js를 선택했습니다.
+  - 폴더 단위로 UI 및 로직을 구조화 할 수 있어 유지보수성이 높습니다.
 - **Frontend**: React, TypeScript
+  - API 기반으로 명확한 데이터 구조가 필요하여 TypeScript를 통해 타입 안정성을 확보하여 런타임 오류를 줄이고, React 컴포넌트 구조와 결합해 UI 구현과 재사용성이 용이합니다.
 - **Styling**: Tailwind CSS
+  - 관리자 화면은 요소가 많고 UI 패턴이 반복되어 빠르게 일관적인 스타일을 적용할 수 있는 Tailwind를 사용했습니다.
 - **State Management**: React Query (@tanstack/react-query)
+  - 동일한 데이터를 여러 페이지에서 사용하는 경우가 많아 캐시를 재활용 할 수 있어 UX 향상에 도움 됩니다.
 - **Chart**: Recharts
+  - 대시보드의 거래 통계와 상태 분포를 간단하게 시각화하기에 적합하고, React 컴포넌트 기반이라 빠르고 직관적으로 차트를 구성할 수 있습니다.
 
 ## 📋 프로젝트 구조
 
