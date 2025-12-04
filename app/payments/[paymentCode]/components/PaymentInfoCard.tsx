@@ -52,12 +52,12 @@ export default function PaymentInfoCard({ paymentCode }: PaymentInfoCardProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         <div>
-          <label className="block text-xs md:text-sm font-medium text-text mb-1">결제 코드</label>
+          <label className="block text-xs md:text-sm font-bold text-primary mb-1">결제 코드</label>
           <p className="text-sm md:text-base text-text font-mono">{payment.paymentCode}</p>
         </div>
 
         <div>
-          <label className="block text-xs md:text-sm font-medium text-text mb-1">
+          <label className="block text-xs md:text-sm font-bold text-primary mb-1">
             결제 날짜/시간
           </label>
           <p className="text-sm md:text-base text-text">
@@ -66,28 +66,28 @@ export default function PaymentInfoCard({ paymentCode }: PaymentInfoCardProps) {
         </div>
 
         <div>
-          <label className="block text-xs md:text-sm font-medium text-text mb-1">결제 금액</label>
+          <label className="block text-xs md:text-sm font-bold text-primary mb-1">결제 금액</label>
           <p className="text-sm md:text-base text-text font-semibold">
             {formatCurrency(payment.amount, payment.currency as "KRW" | "USD")}
           </p>
         </div>
 
         <div>
-          <label className="block text-xs md:text-sm font-medium text-text mb-1">결제 수단</label>
+          <label className="block text-xs md:text-sm font-bold text-primary mb-1">결제 수단</label>
           <p className="text-sm md:text-base text-text">
             {paymentTypeMap.get(payment.payType) || payment.payType}
           </p>
         </div>
 
         <div>
-          <label className="block text-xs md:text-sm font-medium text-text mb-1">상태</label>
+          <label className="block text-xs md:text-sm font-bold text-primary mb-1">상태</label>
           <p className="text-sm md:text-base text-text">
             {paymentStatusMap.get(payment.status) || payment.status}
           </p>
         </div>
 
         <div>
-          <label className="block text-xs md:text-sm font-medium text-text mb-1">가맹점명</label>
+          <label className="block text-xs md:text-sm font-bold text-primary mb-1">가맹점명</label>
           <p className="text-sm md:text-base text-text">{payment.mchtName}</p>
         </div>
       </div>

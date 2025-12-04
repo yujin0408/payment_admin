@@ -2,16 +2,25 @@
 
 import Card from "@/app/_components/Card";
 import { useMerchantDetail } from "@/app/_lib/query/merchants";
-import { usePaymentDetail } from "@/app/_lib/query/paymentDetail";
+import { useMerchantCodes } from "@/app/_lib/query/code";
+import { useMemo } from "react";
 
-interface MerchantInfoCardProps {
-  paymentCode: string;
+interface MerchantDetailCardProps {
+  mchtCode: string;
 }
 
-export default function MerchantInfoCard({ paymentCode }: MerchantInfoCardProps) {
-  const { data: payment } = usePaymentDetail(paymentCode);
-  const mchtCode = payment?.mchtCode || "";
+export default function MerchantDetailCard({ mchtCode }: MerchantDetailCardProps) {
   const { data: merchant, isLoading, error } = useMerchantDetail(mchtCode);
+  const { data: statusCodesData } = useMerchantCodes();
+
+  // 상태 코드 맵 생성
+  const statusMap = useMemo(() => {
+    const map = new Map<string, string>();
+    statusCodesData?.data?.forEach((code: { code: string; description: string }) => {
+      map.set(code.code, code.description);
+    });
+    return map;
+  }, [statusCodesData]);
 
   if (isLoading) {
     return (
@@ -34,7 +43,7 @@ export default function MerchantInfoCard({ paymentCode }: MerchantInfoCardProps)
   }
 
   return (
-    <Card className="mb-6 pb-15">
+    <Card className="mb-6">
       <h2 className="text-lg md:text-xl font-bold text-text mb-4 pb-4 border-b border-gray">
         가맹점 정보
       </h2>
@@ -48,11 +57,7 @@ export default function MerchantInfoCard({ paymentCode }: MerchantInfoCardProps)
         <div>
           <label className="block text-xs md:text-sm font-bold text-primary mb-1">상태</label>
           <p className="text-sm md:text-base text-text">
-            {merchant.status === "ACTIVE"
-              ? "활성"
-              : merchant.status === "PENDING"
-              ? "대기"
-              : "비활성"}
+            {statusMap.get(merchant.status) || merchant.status}
           </p>
         </div>
 
